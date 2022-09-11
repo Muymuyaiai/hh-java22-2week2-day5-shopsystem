@@ -1,7 +1,6 @@
 package service;
 
 import model.Product;
-import service.ShopService;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -14,7 +13,6 @@ class ShopServiceTest {
 
         Product product1 = new Product(1, "Product1");
         Product product2 = new Product(2, "Product2");
-        Product product3 = new Product(3, "Product3");
 
         ShopService shopService = new ShopService();
 
@@ -23,13 +21,13 @@ class ShopServiceTest {
 
 
     @Test
-    void getProductExpectTrue() {
+    void getProduct() {
         shopService.addProduct(product1);
+        Product expectedProduct = product1;
 
         Product actual = shopService.getProduct(1);
 
-        assertEquals(product1, actual);
-
+        assertEquals(expectedProduct, actual);
     }
 
     @Test
@@ -48,22 +46,30 @@ class ShopServiceTest {
 
     @Test
     void addProduct() {
-    }
+        Map<Integer, Product> expectedMap = new HashMap<>();
+        expectedMap.put(1,product1);
 
-    @Test
-    void addProductById() {
-    }
+        Map<Integer, Product> actual = shopService.addProduct(product1);
 
-    @Test
-    void addOrder() {
+        assertEquals(expectedMap,actual);
     }
 
     @Test
     void getOrder() {
+        shopService.addProduct(product1);
+        Product expectedProduct = product1;
+
+        Product actual = shopService.getProduct(1);
+
+        assertEquals(expectedProduct, actual);
     }
 
     @Test
     void listOrders() {
+    }
+
+    @Test
+    void addOrder() {
     }
 
 }

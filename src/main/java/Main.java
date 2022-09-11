@@ -4,8 +4,17 @@ import model.Product;
 
 import java.util.*;
 
+
+
+
 public class Main {
+
+
     public static void main(String[] args) {
+
+        final String ANSI_RESET = "\u001B[0m";
+        final String ANSI_RED = "\u001B[31m";
+        final String ANSI_YELLOW = "\u001B[33m";
 
         String input = "";
         int orderId;
@@ -21,69 +30,61 @@ public class Main {
         shopService.addProduct(product2);
         shopService.addProduct(product3);
 
-        System.out.println(shopService.listProducts());
-
-
-        System.out.println(" --------------");
-        System.out.println("| Shop Service |");
-        System.out.println(" --------------");
-        System.out.println();
-
+        System.out.println(" --------------\n| Shop Service |\n --------------\n");
         while (!Objects.equals(input, "X")) {
 
-            System.out.println("1. get product");
-            System.out.println("2. list all products");
-            System.out.println("3. get order");
-            System.out.println("4. list all orders");
-            System.out.println("5. add order  ");
-            System.out.println();
+
+            System.out.println("1. get product\n2. list all products\n3. get order\n4. list all orders\n5. add order\n");
             System.out.println("select item or 'x' for exit");
-            input = scanner.next().toUpperCase();
+            input = scanner.nextLine().toUpperCase();
 
             switch (input) {
                 case "1" -> {
                     System.out.print("Enter product ID: ");
-                    input = scanner.next();
-                    System.out.println(shopService.getProduct(Integer.parseInt(input)));
-                    System.out.println();
+                    input = scanner.nextLine();
+                    try {
+                        System.out.println("\n  " + ANSI_YELLOW + shopService.getProduct(Integer.parseInt(input)) + ANSI_RESET +"\n");
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        System.out.println("\n  " + ANSI_RED + "The Product ID does not exists!" + ANSI_RESET + "\n");
+                    }
                 }
                 case "2" ->
-                    System.out.println(shopService.listProducts());
+                    System.out.println("\n  " + ANSI_YELLOW + shopService.listProducts() + ANSI_RESET + "\n");
                 case "3" -> {
                     System.out.print("Enter order ID: ");
-                    input = scanner.next();
-                    System.out.println(shopService.getOrder(Integer.parseInt(input)));
-                    System.out.println();
+                    input = scanner.nextLine();
+                    try {
+                        System.out.println("\n  " + ANSI_YELLOW + shopService.getOrder(Integer.parseInt(input)) + ANSI_RESET + "\n");
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        System.out.println("\n  " + ANSI_RED + "The Order ID does not exists!" + ANSI_RESET + "\n");
+                    }
                 }
-                case "4" -> {
-                    System.out.println(shopService.listOrders());
-                    System.out.println();
-                }
+                case "4" ->
+                    System.out.println("\n  " + ANSI_YELLOW + shopService.listOrders() + ANSI_RESET + "\n");
                 case "5" -> {
-                    System.out.println("Enter new order ID: ");
-                    orderId = scanner.nextInt();
+                    System.out.print("Enter new order ID: ");
+                    input = scanner.nextLine();
+                    orderId = Integer.parseInt(input);
                     ArrayList<Product> newProducts = new ArrayList<>();
 
-                    while (!input.equals("p")) {
-                        System.out.println(shopService.listProducts());
-                        System.out.println("Enter model.Product ID to add or 'p' to proceed: ");
+                    System.out.println("\n  " + shopService.listProducts() + "\n");
+                    while (!input.equals("")) {
+                        System.out.print("Enter Product ID to add or ENTER to proceed: ");
 
-                        input= scanner.next();
+                        input= scanner.nextLine();
 
-                        if (!Objects.equals(input, "p")) {
+                        if (!Objects.equals(input, "")) {
                             try {
                                 newProducts.add(shopService.getProduct(Integer.parseInt(input)));
                             } catch (ArrayIndexOutOfBoundsException e){
-                                System.out.println("ID does not exists!");
+                                System.out.println("\n  " + ANSI_RED + "The Product ID does not exists!" + ANSI_RESET + "\n");
                             }
                         }
                     }
                     shopService.addOrder(new Order(orderId, newProducts));
 
-                    System.out.println(shopService.getOrder(orderId));
-                    System.out.println();
+                    System.out.println("\n Added order: " + ANSI_YELLOW + shopService.getOrder(orderId) + ANSI_RESET + "\n");
                 }
-
             }
         }
     }

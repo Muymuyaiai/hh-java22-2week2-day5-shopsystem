@@ -15,9 +15,9 @@ public class OrderRepo {
         return orders.get(id);
     }
 
-    public Order add(Order order){
+    public Map<Integer, Order> add(Order order){
         orders.put(order.getOrderId(), order);
-        return order;
+        return orders;
     }
 
 }

@@ -7,8 +7,8 @@ import repo.OrderRepo;
 import java.util.Map;
 
 public class ShopService {
-    private ProductRepo productRepo = new ProductRepo();
-    private OrderRepo orderRepo = new OrderRepo();
+    private final ProductRepo productRepo = new ProductRepo();
+    private final OrderRepo orderRepo = new OrderRepo();
 
     public Product getProduct(int productId){
             if (productRepo.list().containsKey(productId)) {
@@ -21,7 +21,7 @@ public class ShopService {
         return productRepo.list();
     }
 
-    public Product addProduct(Product product){
+    public Map<Integer, Product> addProduct(Product product){
             return productRepo.add(product);
     }
 
@@ -36,9 +36,11 @@ public class ShopService {
         return orderRepo.list();
     }
 
-    public Order addOrder(Order order){
+    public Map<Integer, Order> addOrder(Order order){
         return orderRepo.add(order);
     }
+
+
 
 
 }

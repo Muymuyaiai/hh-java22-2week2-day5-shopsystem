@@ -15,9 +15,9 @@ public class ProductRepo {
         return products.get(id);
     }
 
-    public Product add(Product product){
+    public Map<Integer, Product> add(Product product){
         products.put(product.getId(), product);
-        return product;
+        return products;
     }
 
 }
